@@ -20,7 +20,7 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           token_format: 'access_token'
-          workload_identity_provider: '//iam.googleapis.com/projects/776508433270/locations/global/workloadIdentityPools/githubactions/*'
+          workload_identity_provider: 'projects/776508433270/locations/global/workloadIdentityPools/Githubactions/providers//iam.googleapis.com/projects/776508433270/locations/global/workloadIdentityPools/githubactions/*'
           service_account: 'harness-sa-gcp@nikhils-playground-010897.iam.gserviceaccount.com'
 
       - name: 'setup gcloud'
