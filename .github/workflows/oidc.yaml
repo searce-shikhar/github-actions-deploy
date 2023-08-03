@@ -1,0 +1,34 @@
+name: Github actions OIDC-GCP
+on:
+  push:
+    branches: master
+
+jobs:
+  OIDC:
+    runs-on: ubuntu-latest
+
+    permissions:
+      content: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+ 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0.4.0'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: 'projects/776508433270/locations/global/workloadIdentityPools/Githubactions/providers/github'
+          service_account: 'harness-sa-gcp@nikhils-playground-010897.iam.gserviceaccount.com'
+
+      - name: 'setup gcloud'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        caches: 
+            - docker
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+          docker build -t nginx-app .
+          docker tag nginx-app us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest           
+          docker push us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest
