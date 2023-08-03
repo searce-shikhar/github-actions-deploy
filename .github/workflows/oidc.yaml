@@ -22,7 +22,7 @@ jobs:
           token_format: 'access_token'
           create_credentials_file: true
           activate_credentials_file: true
-          workload_identity_provider: 'projects/776508433270/locations/global/workloadIdentityPools/githubactions/providers/github/*'
+          workload_identity_provider: '${{secrets.WIF_PROVIDER}}'
           service_account: 'harness-sa-gcp@nikhils-playground-010897.iam.gserviceaccount.com'
 
       - name: 'setup gcloud'
