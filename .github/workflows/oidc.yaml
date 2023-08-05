@@ -32,5 +32,5 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
           docker build -t nginx-app .
-          docker tag nginx-app us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest           
-          docker push us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest
+          docker tag nginx-app us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest-1           
+          docker push us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest-1
