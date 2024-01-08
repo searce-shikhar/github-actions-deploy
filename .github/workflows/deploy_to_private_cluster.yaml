@@ -1,1 +1,36 @@
+name: authenticate and deploy to private GKE cluster
+on:
+  push:
+    branches: master
 
+jobs:
+  OIDC:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+ 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0.4.0'
+        with:
+          token_format: 'access_token'
+          create_credentials_file: true
+          activate_credentials_file: true
+          workload_identity_provider: 'projects/678753280151/locations/global/workloadIdentityPools/oidc-github-arkm/providers/github-provider'
+          service_account: 'sa-oidc@dulcet-thinker-409510.iam.gserviceaccount.com'
+
+      - name: 'setup gcloud'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        
+      - name: 'build-push'
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+          docker build -t nginx-app .
+          docker tag nginx-app us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest-1           
+          docker push us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest-1
