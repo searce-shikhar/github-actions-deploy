@@ -1,7 +1,8 @@
 name: Github actions OIDC-GCP
 on:
   push:
-    branches: master
+    branches: 
+    - master
 
 jobs:
   OIDC:
@@ -23,14 +24,15 @@ jobs:
           create_credentials_file: true
           activate_credentials_file: true
           workload_identity_provider: 'projects/776508433270/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider'
-          service_account: 'oidc-github@nikhils-playground-010897.iam.gserviceaccount.com'
+          service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
 
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
         
       - name: 'build-push'
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker europe-west3-docker.pkg.dev
           docker build -t nginx-app .
-          docker tag nginx-app us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest-1           
-          docker push us-central1-docker.pkg.dev/nikhils-playground-010897/harness/nginx-app1:latest-1
+          docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc:${GITHUB_SHA}       
+          docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc:${GITHUB_SHA} 
+
