@@ -33,5 +33,6 @@ jobs:
           docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
           docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
           echo ${GITHUB_SHA} 
+          echo $(pwd)
           
 
