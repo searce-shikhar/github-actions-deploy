@@ -20,20 +20,11 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0.4.0'
         with:
-          #token_format: 'access_token'
-          #create_credentials_file: true
-          #activate_credentials_file: true
           workload_identity_provider: 'projects/309021456102/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider'
           service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
 
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
-
-      # - id: get-gke-credentials
-      #   uses: google-github-actions/get-gke-credentials@v0.4.0
-      #   with:
-      #     cluster_name: cluster-1
-      #     location: us-central1-c
         
       - name: 'build-push'
         run: |
