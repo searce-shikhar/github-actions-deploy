@@ -28,7 +28,7 @@ jobs:
 
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
-        
+  ##      
       - name: 'build-push'
         run: |
           gcloud auth configure-docker europe-west3-docker.pkg.dev
