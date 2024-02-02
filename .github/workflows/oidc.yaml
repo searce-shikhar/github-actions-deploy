@@ -21,7 +21,8 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           workload_identity_provider: 'projects/309021456102/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider'
-          service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
+          service_account: ${{ secrets.SA_GITHUB }}
+          #service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
 
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
