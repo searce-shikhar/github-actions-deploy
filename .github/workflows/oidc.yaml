@@ -20,9 +20,9 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0.4.0'
         with:
-          token_format: 'access_token'
-          create_credentials_file: true
-          activate_credentials_file: true
+          #token_format: 'access_token'
+          #create_credentials_file: true
+          #activate_credentials_file: true
           workload_identity_provider: '//iam.googleapis.com/projects/309021456102/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider'
           service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
 
