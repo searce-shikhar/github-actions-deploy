@@ -37,6 +37,7 @@ jobs:
         
       - name: 'build-push'
         run: |
+          gcloud auth configure-docker europe-west3-docker.pkg.dev
           docker build -t nginx-app .
           docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc:${GITHUB_SHA}
 
