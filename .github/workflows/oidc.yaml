@@ -39,6 +39,8 @@ jobs:
           docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
           sed -i "s|image: image_name|image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}|" regapp-deploy.yml
           cat regapp-deploy.yml
-          kubectl get ns
+          kubectl create namespace app-dev
+          kubectl apply -f regapp-deploy.yml -n app-dev
+          kubectl apply -f regapp-service.yml -n app-dev
           
 
