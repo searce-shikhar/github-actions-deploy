@@ -25,16 +25,12 @@ jobs:
 
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
-
-      - name: Get tag
-        id: get-tag
-        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
       
       - name: 'build-push'
         run: |
           gcloud auth configure-docker europe-west3-docker.pkg.dev
           docker build -t nginx-app .
-          docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${{ steps.get-tag.outputs.short_ref }}
-          docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${{ steps.get-tag.outputs.short_ref }} 
+          docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
+          docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
           
 
