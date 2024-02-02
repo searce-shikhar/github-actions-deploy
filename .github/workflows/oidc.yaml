@@ -34,5 +34,7 @@ jobs:
           docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
           echo ${GITHUB_SHA} 
           echo $(pwd)
+          echo $(ls)
+          sed -i "s/image: image_name/image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}/" regapp-deploy.yml
           
 
