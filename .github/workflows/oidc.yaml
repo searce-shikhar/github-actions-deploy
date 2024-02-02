@@ -23,12 +23,12 @@ jobs:
           token_format: 'access_token'
           create_credentials_file: true
           activate_credentials_file: true
-          workload_identity_provider: 'projects/776508433270/locations/global/workloadIdentityPools/oidc-github-pool/attribute.repository/assertion.repository'
+          workload_identity_provider: 'projects/776508433270/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider/*'
           service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
 
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
-  ##      
+        
       - name: 'build-push'
         run: |
           gcloud auth configure-docker europe-west3-docker.pkg.dev
