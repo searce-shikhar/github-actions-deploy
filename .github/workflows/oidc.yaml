@@ -108,7 +108,7 @@ jobs:
 
   deploy-to-prod:
       runs-on: ubuntu-latest
-      needs: ['gitguardian-scanning', 'deploy-to-stage']
+      needs: ['gitguardian-scanning']
       if: (github.event.pull_request.merged == true) || (github.ref == 'refs/heads/master')
       permissions:
         contents: 'read'
