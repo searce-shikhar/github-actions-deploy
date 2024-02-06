@@ -5,7 +5,7 @@ on:
     - master
 
 jobs:
-  scanning:
+  gitguardian-scanning:
     name: GitGuardian scan
     runs-on: ubuntu-latest
     steps:
@@ -28,11 +28,8 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
- 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
@@ -44,21 +41,70 @@ jobs:
       - name: 'setup gcloud'
         uses: 'google-github-actions/setup-gcloud@v1'
 
-      - uses: google-github-actions/get-gke-credentials@v2
+  # OIDC:
+  #   runs-on: ubuntu-latest
+
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+ 
+  #     - id: 'auth'
+  #       name: 'Authenticate to Google Cloud'
+  #       uses: 'google-github-actions/auth@v2'
+  #       with:
+  #         workload_identity_provider: 'projects/309021456102/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider'
+  #         service_account: ${{ secrets.SA_GITHUB }}
+  #         ##service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
+
+  #     - name: 'setup gcloud'
+  #       uses: 'google-github-actions/setup-gcloud@v1'
+
+  #     - uses: google-github-actions/get-gke-credentials@v2
+  #       with:
+  #         cluster_name: "cluster-2"
+  #         location: "europe-west3-b"
+  #         service_account: ${{ secrets.SA_GITHUB }}
+  #         project_id: "dulcet-thinker-409510"
+      
+  #     - name: 'build-push'
+  #       run: |
+  #         gcloud auth configure-docker europe-west3-docker.pkg.dev
+  #         docker build -t nginx-app .
+  #         docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
+  #         docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
+  #         sed -i "s|image: image_name|image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}|" ./manifest/regapp-deploy.yml
+  #         cat ./manifest/regapp-deploy.yml
+  #         kubectl apply -f ./manifest/ -n app-dev
+
+  deploy-to-stage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Connect to staging GKE Cluster
+        uses: google-github-actions/get-gke-credentials@v2
         with:
           cluster_name: "cluster-2"
           location: "europe-west3-b"
           service_account: ${{ secrets.SA_GITHUB }}
           project_id: "dulcet-thinker-409510"
-      
-      - name: 'build-push'
+
+      - name: Build and Push Docker Image to GAR
         run: |
           gcloud auth configure-docker europe-west3-docker.pkg.dev
           docker build -t nginx-app .
           docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
           docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
-          sed -i "s|image: image_name|image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}|" ./manifest/regapp-deploy.yml
-          cat ./manifest/regapp-deploy.yml
-          kubectl apply -f ./manifest/ -n app-dev
-          
 
+      - name: Deploy app to Staging GKE Cluster
+        run: |
+          sed -i "s|image: image_name|image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}|" ./manifest/regapp-deploy.yml
+          kubectl apply -f ./manifest/ -n app-dev
+
+          
