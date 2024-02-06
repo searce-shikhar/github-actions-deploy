@@ -22,25 +22,6 @@ jobs:
           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
-  OIDC:
-    runs-on: ubuntu-latest
-    needs: gitguardian-scanning
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    
-    steps:
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          workload_identity_provider: 'projects/309021456102/locations/global/workloadIdentityPools/oidc-github-pool/providers/github-provider'
-          service_account: ${{ secrets.SA_GITHUB }}
-          #service_account: 'github-oidc@gleaming-baton-410613.iam.gserviceaccount.com'
-
-      - name: 'setup gcloud'
-        uses: 'google-github-actions/setup-gcloud@v1'
-
   # OIDC:
   #   runs-on: ubuntu-latest
 
@@ -82,7 +63,7 @@ jobs:
 
   deploy-to-stage:
     runs-on: ubuntu-latest
-    needs: ['gitguardian-scanning', 'OIDC']
+    needs: ['gitguardian-scanning']
     permissions:
       contents: 'read'
       id-token: 'write'
