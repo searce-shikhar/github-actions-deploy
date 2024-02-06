@@ -24,7 +24,7 @@ jobs:
 
   OIDC:
     runs-on: ubuntu-latest
-
+    needs: gitguardian-scanning
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -82,7 +82,7 @@ jobs:
 
   deploy-to-stage:
     runs-on: ubuntu-latest
-
+    needs: ['gitguardian-scanning', 'OIDC']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
