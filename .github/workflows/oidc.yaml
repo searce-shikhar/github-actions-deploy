@@ -93,7 +93,7 @@ jobs:
         - name: Build and Push Docker Image to GAR
           run: |
             gcloud auth configure-docker europe-west3-docker.pkg.dev
-            docker build . -t nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:latest
+            docker build . -t europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} -t europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:latest
             docker push -a europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app
   
         - name: Deploy app to Staging GKE Cluster
