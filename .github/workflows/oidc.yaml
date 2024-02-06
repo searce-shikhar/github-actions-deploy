@@ -93,10 +93,8 @@ jobs:
         - name: Build and Push Docker Image to GAR
           run: |
             gcloud auth configure-docker europe-west3-docker.pkg.dev
-            docker build -t nginx-app .
-            docker tag nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
-            docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} 
-            echo "europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}" > image-name.txt
+            docker build . -t nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA} nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:latest
+            docker push -a europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app
   
         - name: Deploy app to Staging GKE Cluster
           run: |
@@ -132,7 +130,7 @@ jobs:
         #     service_account: ${{ secrets.SA_GITHUB }}
         #     project_id: "dulcet-thinker-409510"
 
-        - name: Get image name
-          run: |
-            cat image-name.txt
-            echo "nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}"
+        # - name: Get image name
+        #   run: |
+        #     cat image-name.txt
+        #     echo "nginx-app europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}"
