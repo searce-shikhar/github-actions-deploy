@@ -144,7 +144,8 @@ jobs:
 
         - name: Deploy app to Staging GKE Cluster
           run: |
-            sed -i "s|image: image_name|image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:latest|" ./manifest/regapp-deploy.yml
+            sed -i "s|image: ${IMAGE_NAME}|image: europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:latest|" ./manifest/regapp-deploy.yml
+            cat ./manifest/regapp-deploy.yml
             kubectl apply -f ./manifest/ -n app-dev
 
 
