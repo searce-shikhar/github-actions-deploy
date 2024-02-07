@@ -19,7 +19,7 @@ spec:
       containers:
       - name: regapp
         # image: valaxy/regapp
-        image: image_name
+        image: ${IMAGE_NAME}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
