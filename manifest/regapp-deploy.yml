@@ -18,7 +18,6 @@ spec:
     spec:
       containers:
       - name: regapp
-        # image: valaxy/regapp
         image: ${IMAGE_NAME}
         imagePullPolicy: Always
         ports:
