@@ -128,19 +128,19 @@ jobs:
         - name: 'setup gcloud'
           uses: 'google-github-actions/setup-gcloud@v1'
   
-        # - name: Connect to staging GKE Cluster
-        #   uses: google-github-actions/get-gke-credentials@v2
-        #   with:
-        #     cluster_name: "cluster-2"
-        #     location: "europe-west3-b"
-        #     service_account: ${{ secrets.SA_GITHUB }}
-        #     project_id: "dulcet-thinker-409510"
+        - name: Connect to staging GKE Cluster
+          uses: google-github-actions/get-gke-credentials@v2
+          with:
+            cluster_name: "cluster-2"
+            location: "europe-west3-b"
+            service_account: ${{ secrets.SA_GITHUB }}
+            project_id: "gleaming-baton-410613"
 
-        # - name: Build and Push Docker Image to GAR
-        #   run: |
-        #     gcloud auth configure-docker europe-west3-docker.pkg.dev
-        #     docker build . -t europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
-        #     docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
+        - name: Build and Push Docker Image to GAR
+          run: |
+            gcloud auth configure-docker europe-west3-docker.pkg.dev
+            docker build . -t europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
+            docker push europe-west3-docker.pkg.dev/gleaming-baton-410613/fin-oidc/nginx-app:${GITHUB_SHA}
 
         - name: Deploy app to Staging GKE Cluster
           run: |
