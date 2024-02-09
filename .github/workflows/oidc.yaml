@@ -131,8 +131,8 @@ jobs:
         - name: Connect to staging GKE Cluster
           uses: google-github-actions/get-gke-credentials@v2
           with:
-            cluster_name: "cluster-2"
-            location: "europe-west3-b"
+            cluster_name: "cluster-1"
+            location: "us-central1-c"
             service_account: ${{ secrets.SA_GITHUB }}
             project_id: "gleaming-baton-410613"
 
