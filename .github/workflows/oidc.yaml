@@ -8,7 +8,7 @@ on:
      types:
        - closed
 
-# jobs:
+jobs:
 #   gitguardian-scanning:
 #     name: GitGuardian scan
 #     runs-on: ubuntu-latest
