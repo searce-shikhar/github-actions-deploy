@@ -2,12 +2,13 @@ name: Github actions OIDC-GCP
 on:
   push:
     branches: 
-    - master
+      - master
   pull_request:
      types:
        - closed
 
 jobs:
+#
 #   gitguardian-scanning:
 #     name: GitGuardian scan
 #     runs-on: ubuntu-latest
