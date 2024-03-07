@@ -7,6 +7,6 @@ on:
 jobs:
   deploy:
     name: Deploy
-    uses: searce-shikhar/github-actions-deploy/.github/workflows/main.yml@v1
+    uses: searce-shikhar/nested-workflow/.github/workflows/main.yml@main
     with:
       ecr_repository: shikhar-test
